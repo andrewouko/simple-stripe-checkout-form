@@ -62,3 +62,7 @@ Server can now be accessed through http://localhost:3000
 
 # Test cards
 https://stripe.com/docs/testing?testing-method=card-numbers#europe-and-middle-east
+
+# Key missing items & resolution mechanisms
+- Unit tests for the API routes. Jest can be used for this purpose.
+- E2E testing. Cypress is the easiest package to use intergration tests for Nextjs applications
