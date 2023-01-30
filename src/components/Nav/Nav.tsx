@@ -14,7 +14,7 @@ const Nav = () => {
   useEffect(() => {
     setTotal(store.getState().cart.total);
     setCart(store.getState().cart.cart);
-  }, [])
+  }, []);
 
   store.subscribe(() => {
     setTotal(store.getState().cart.total);
@@ -42,27 +42,29 @@ const Nav = () => {
             <Link href="/">Simple Store</Link>
           </div>
         </div>
-        <Link href="/order">
-          <div
-            className={`flex flex-row space-x-1 md:space-x-4 hover:underline`}
-          >
-            <div className="relative inline-flex items-center">
-              <FaShoppingCart className="text-2xl md:text-3xl" />
-              <strong className="sr-only">Cart</strong>
-              {cart.length > 0 && (
-                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
-                  {cart_items_count}
-                </div>
-              )}
+        {router.pathname !== "/order" && (
+          <Link href="/order">
+            <div
+              className={`flex flex-row space-x-1 md:space-x-4 hover:underline`}
+            >
+              <div className="relative inline-flex items-center">
+                <FaShoppingCart className="text-2xl md:text-3xl" />
+                <strong className="sr-only">Cart</strong>
+                {cart.length > 0 && (
+                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
+                    {cart_items_count}
+                  </div>
+                )}
+              </div>
+              <span className="text-lg md:text-2xl">
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(total)}
+              </span>
             </div>
-            <span className="text-lg md:text-2xl">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "GBP",
-              }).format(total)}
-            </span>
-          </div>
-        </Link>
+          </Link>
+        )}
       </div>
     </nav>
   );

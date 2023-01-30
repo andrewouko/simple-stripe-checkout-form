@@ -22,19 +22,26 @@ https://github.com/andrewouko/simple-stripe-checkout-form.git
 
 # Starting the application
 
-First install the project's dependencies
+Install the project's dependencies
 ```bash
 npm i
 # or
 yarn install
 ```
 
-Then, run the development server:
+Build the project
+```bash
+npm run build
+# or
+yarn build
+```
+
+Then, run the production server:
 
 ```bash
-npm run dev
+npm run start
 # or
-yarn dev
+yarn start
 ```
 
 Server can now be accessed through http://localhost:3000
