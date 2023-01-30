@@ -1,38 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Simple Store
 
-## Getting Started
+This is a demo application to demonstrate a fullstack application built using nextjs for e-commerce payment collection through the Stripe payment gateway
 
-First, run the development server:
+# Dependencies
+- Redux: for application state management
+- tailwind: for styling
+- stripe: the payment client
+- react-icons: for the applications icons
+
+# Configuration
+- add .env or .env.local files with the following keys
+- - STRIPE_SECRET_KEY: a secret key to be used the stripe backend
+- - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: a publishable key for use on the client side for the redirect to stripe
+<p>The keys can be accessed on the stripe dashboard after signing up on the following url: https://dashboard.stripe.com/account/apikeys </p>
+
+- Adding products
+<p>Add products to the products.json file</p>
+
+# Starting the application
+
+First install the project's dependencies
+```bash
+npm i
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Server can now be accessed through http://localhost:3000
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# Application Pages
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- /
+<p>This page list the products<p>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- /:product_id
+<p>This page displays a simple preview of a product<p>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- /order
+<p>This page shows the order summary of the cart items and provides the checkout functionality to Stripe's test<p>
 
-## Learn More
+- /success?:status
+<p>This page shows the status for each of payment session. It handles two statuses, cancelled and success.<p>
 
-To learn more about Next.js, take a look at the following resources:
+# API routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- /api/checkout
+<p>This is a post route that gets an array of cart items and creates a checkout session on stripe.<p>
+<p>It allows only for card payments and uses the fixed standard shipping cost.<p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Test cards
+https://stripe.com/docs/testing?testing-method=card-numbers#europe-and-middle-east
