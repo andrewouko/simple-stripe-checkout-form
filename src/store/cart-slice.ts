@@ -3,12 +3,13 @@ import { CartAction, CartState, TotalAction } from "@/types";
 import products from "../../products.json";
 
 // slice
+const initial_state: CartState = {
+  total: 0,
+  cart: [],
+};
 export const cart_slice = createSlice({
   name: "Cart Slice",
-  initialState: {
-    total: 0,
-    cart: [],
-  },
+  initialState: initial_state,
   reducers: {
     increaseTotal: (state: CartState, action: TotalAction) => {
       state.total += action.payload;
@@ -29,7 +30,7 @@ export const cart_slice = createSlice({
           quantity: 1,
         });
       } else {
-        cart_item.quantity += 1
+        cart_item.quantity += 1;
       }
     },
     removeCartItem: (state: CartState, action: CartAction) => {
@@ -40,6 +41,22 @@ export const cart_slice = createSlice({
         state.cart.splice(index, 1);
       }
     },
+    decreaseQty: (state: CartState, action: CartAction) => {
+      const cart_item = state.cart.find(
+        (item) => item.product_id === action.payload
+      );
+      if (cart_item) {
+        cart_item.quantity -= 1;
+      }
+    },
+    increaseQty: (state: CartState, action: CartAction) => {
+      const cart_item = state.cart.find(
+        (item) => item.product_id === action.payload
+      );
+      if (cart_item) {
+        cart_item.quantity += 1;
+      }
+    },
   },
 });
 
@@ -48,7 +65,7 @@ export const selectTotal = (state: CartState) => state.total;
 export const selectCart = (state: CartState) => state.cart;
 
 // actions
-export const { increaseTotal, decreaseTotal, addCartItem, removeCartItem } =
+export const { increaseTotal, decreaseTotal, addCartItem, removeCartItem, increaseQty, decreaseQty } =
   cart_slice.actions;
 
 // reducer

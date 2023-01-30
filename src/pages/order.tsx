@@ -1,5 +1,5 @@
 import store from "@/store";
-import { selectTotal } from "@/store/cart-slice";
+import { increaseQty, selectTotal } from "@/store/cart-slice";
 import { createSelector } from "@reduxjs/toolkit";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -7,16 +7,22 @@ import { FaShoppingCart, FaArrowCircleLeft } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { CartItem, Product } from "@/types";
 import products from "../../products.json";
-import getStripe from "@/helpers";
+import getStripe, { decreaseCartQty, increaseCartQty, removeFromCart } from "@/helpers";
 
 const Order = () => {
   const [total, setTotal] = useState(0);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     setTotal(store.getState().cart.total);
     setCart(store.getState().cart.cart);
   }, []);
+
+  store.subscribe(() => {
+    setTotal(store.getState().cart.total);
+    setCart(store.getState().cart.cart);
+    console.log(store.getState());
+  });
 
   const router = useRouter();
 
@@ -61,21 +67,30 @@ const Order = () => {
                     <span className="text-red-500 text-xs">
                       {product.description}
                     </span>
-                    <a
-                      href="#"
+                    <button
                       className="font-semibold hover:text-red-500 text-gray-500 text-xs"
+                      onClick={() => {
+                        removeFromCart(item.product_id);
+                      }}
                     >
                       Remove
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div className="flex justify-center w-1/5">
-                  <svg
-                    className="fill-current text-gray-600 w-3"
-                    viewBox="0 0 448 512"
+                  <button
+                    onClick={() => {
+                      console.log('clicked')
+                      decreaseCartQty(item.product_id);
+                    }}
                   >
-                    <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                  </svg>
+                    <svg
+                      className="fill-current text-gray-600 w-3"
+                      viewBox="0 0 448 512"
+                    >
+                      <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                  </button>
 
                   <input
                     className="mx-2 border text-center w-8"
@@ -84,12 +99,19 @@ const Order = () => {
                     readOnly
                   />
 
-                  <svg
-                    className="fill-current text-gray-600 w-3"
-                    viewBox="0 0 448 512"
+                  <button
+                    onClick={() => {
+                      console.log('clicked')
+                      increaseCartQty(item.product_id);
+                    }}
                   >
-                    <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                  </svg>
+                    <svg
+                      className="fill-current text-gray-600 w-3"
+                      viewBox="0 0 448 512"
+                    >
+                      <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                    </svg>
+                  </button>
                 </div>
                 <span className="text-center w-1/5 font-semibold text-sm">
                   {new Intl.NumberFormat("en-US", {

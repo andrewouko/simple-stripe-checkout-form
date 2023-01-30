@@ -9,7 +9,7 @@ import { CartItem } from "@/types";
 
 const Nav = () => {
   const [total, setTotal] = useState(0);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     setTotal(store.getState().cart.total);
