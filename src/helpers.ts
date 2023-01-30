@@ -34,6 +34,7 @@ export const removeFromCart = (product_id: string) => {
     store.dispatch(removeCartItem(product_id));
   }
 };
+
 export const decreaseCartQty = (product_id: string) => {
   const cart_item = store.getState().cart.cart.find(
     (item) => item.product_id === product_id
@@ -41,7 +42,7 @@ export const decreaseCartQty = (product_id: string) => {
   const product = products.find(
     (product) => product.id === product_id
   );
-  if(cart_item && product) {
+  if(cart_item && product  && cart_item.quantity > 0) {
     store.dispatch(decreaseTotal(product.price));
     store.dispatch(decreaseQty(product_id));
   }
