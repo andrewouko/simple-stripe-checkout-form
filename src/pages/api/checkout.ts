@@ -69,7 +69,6 @@ export default async function handler(
         };
         const session: Stripe.Checkout.Session =
           await stripe.checkout.sessions.create(params);
-        console.info(session);
         res.status(200).json(session);
       } else throw new Error("Request body must be an array of cart items");
     } catch (err: any) {
